@@ -57,17 +57,17 @@ warning on verbose
 %% ========== code ==========
 % track parameters
 laneSpacing     = 3.5; % inches, distance between left and right lanes
-straightLength  = 9.0; % inches
+straightLength  = 12.0; % inches
 global laneWidth
 laneWidth       = laneSpacing/2; % inches, distance between lane center and track center.
 
 global tightDiameter
-tightDiameter   = 14.0; % inches, turn diameter
+tightDiameter   = 28-(laneSpacing*2) % inches, turn diameter
 tightSegments   = 6; % number of segments that create 360 degrees turn
 tightTheta      = 2*pi/tightSegments; % radians, the arc angle of an individual piece
 
 global wideDiameter
-wideDiameter    = 21.0; % inches, turn diameter
+wideDiameter    = 42-(laneSpacing*2) % inches, turn diameter
 wideSegments    = 12; % number of segments that create 360 degree turn
 wideTheta       = 2*pi/wideSegments; % radians, the arc angle of an individual piece
 
