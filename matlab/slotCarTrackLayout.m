@@ -90,7 +90,10 @@ while 1~=0
     [numberOfWideTurns, ~]  = size([find(track(:,8) == 4); find(track(:,8) ==5)]);
     
     fprintf('Currently have %i pieces in place: %i straights, %i tight turns, and %i wide turns.\n',numberOfPieces-1, numberOfStraights, numberOfTightTurns, numberOfWideTurns)
-        
+
+    centerLineDistance = (numberOfStraights * straightLength) + (numberOfTightTurns * pi*tightDiameter/tightSegments) + (numberOfWideTurns * pi*wideDiameter/wideSegments);
+    fprintf('Track length is currently %.3f inches.\n',centerLineDistance)
+    
     % display current center point and heading
     fprintf('Current center is [%.3f, %.3f] with heading = %.3f.\n',lastPiece(3), lastPiece(4), lastPiece(7))
         
