@@ -84,10 +84,10 @@ while 1~=0
     nextPiece = input('======= Please select next element [1-5], delete last piece [6], or exit [7] =================\n');
     clc
     % get info on the curren end of the track
-    [numberOfPieces, ~] = size(track)
-    numberOfPieces = numberOfPieces -1
-    lastPiece = track(numberOfPieces+1, :);
-    
+        [numberOfPieces, ~] = size(track)
+        lastPiece = track(numberOfPieces, :);
+        fprintf('Currently have %i pieces.\n',numberOfPieces+1)
+
     switch nextPiece
         case 1 % ===================================== straight piece
             track = [track;...
@@ -195,8 +195,8 @@ while 1~=0
             track = [track; currentTrackPiece]; % "pop" onto list of track pieces
             
         case 6
-            if numberOfPieces >= 1
-                track = track(1:numberOfPieces,:); % remove last piece
+            if numberOfPieces >= 2
+                track = track(1:numberOfPieces-1,:); % remove last piece
             end
             
         case 7
