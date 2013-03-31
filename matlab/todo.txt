@@ -1,0 +1,3 @@
+- add +/- distance to compare lanes (which is longer?)
+- add a save option
+- 
