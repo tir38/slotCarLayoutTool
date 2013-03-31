@@ -58,12 +58,15 @@ warning on verbose
 % track parameters
 laneSpacing     = 3.5; % inches, distance between left and right lanes
 straightLength  = 9.0; % inches
+global laneWidth
 laneWidth       = laneSpacing/2; % inches, distance between lane center and track center.
 
+global tightDiameter
 tightDiameter   = 14.0; % inches, turn diameter
 tightSegments   = 6; % number of segments that create 360 degrees turn
 tightTheta      = 2*pi/tightSegments; % radians, the arc angle of an individual piece
 
+global wideDiameter
 wideDiameter    = 21.0; % inches, turn diameter
 wideSegments    = 12; % number of segments that create 360 degree turn
 wideTheta       = 2*pi/wideSegments; % radians, the arc angle of an individual piece
@@ -74,14 +77,15 @@ tolerance       = 0.001; % inches, for this script, for comparing two floating p
 track = [0, laneWidth, 0, 0, 0, -laneWidth, 0, 0];
 
 myFig = figure();
-set(myFig, 'Position', [0,0,400,400])
+set(myFig, 'Position', [0,0,500,500])
 
 while 1~=0
+    
+    nextPiece = input('======= Please select next element [1-5], delete last piece [6], or exit [7] =================\n');
     clc
-    nextPiece = input('======= Please select next element [1-5], or exit [6] =================\n');
     % get info on the curren end of the track
-    [numberOfPieces, ~] = size(track);
-    numberOfPieces = numberOfPieces -1;
+    [numberOfPieces, ~] = size(track)
+    numberOfPieces = numberOfPieces -1
     lastPiece = track(numberOfPieces+1, :);
     
     switch nextPiece
@@ -116,7 +120,7 @@ while 1~=0
             end
             
             newHeading = lastPiece(7) + tightTheta;
-            currentTrackPiece = [currentTrackPiece, newHeading, 1];
+            currentTrackPiece = [currentTrackPiece, newHeading, 2];
             track = [track; currentTrackPiece]; % "pop" onto list of track pieces
              
         case 3 % ===================================== right turn, tight radius
@@ -139,7 +143,7 @@ while 1~=0
             end
             
             newHeading = lastPiece(7) - tightTheta;
-            currentTrackPiece = [currentTrackPiece, newHeading, 1];
+            currentTrackPiece = [currentTrackPiece, newHeading, 3];
             track = [track; currentTrackPiece]; % "pop" onto list of track pieces
             
         case 4  % ===================================== left turn, wide radius
@@ -163,7 +167,7 @@ while 1~=0
             end
             
             newHeading = lastPiece(7) + wideTheta;
-            currentTrackPiece = [currentTrackPiece, newHeading, 1];
+            currentTrackPiece = [currentTrackPiece, newHeading, 4];
             track = [track; currentTrackPiece]; % "pop" onto list of track pieces
             
             
@@ -187,10 +191,15 @@ while 1~=0
             end
             
             newHeading = lastPiece(7) - wideTheta;
-            currentTrackPiece = [currentTrackPiece, newHeading, 1];
+            currentTrackPiece = [currentTrackPiece, newHeading, 5];
             track = [track; currentTrackPiece]; % "pop" onto list of track pieces
             
         case 6
+            if numberOfPieces >= 1
+                track = track(1:numberOfPieces,:); % remove last piece
+            end
+            
+        case 7
             fprintf('Thanks for using.....goodbye.\n')
             break
             
@@ -198,13 +207,13 @@ while 1~=0
             fprintf('Not a valid entry.\n')
     end
     
-    % validate addition of new piece:
-        % confirm that lanes are still the same distance appart
-        currentTrackPiece = track(numberOfPieces+1,:);
-        checkLaneSpacing = ((abs(currentTrackPiece(1)- currentTrackPiece(5)))^2  + (abs(currentTrackPiece(2) - currentTrackPiece(6)))^2)^0.5;
-        if (abs(checkLaneSpacing - laneSpacing) > tolerance)
-            fprintf('ERROR: something went wrong adding that piece.\n')
-        end
+%     % validate addition of new piece:
+%         % confirm that lanes are still the same distance appart
+%         currentTrackPiece = track(numberOfPieces+1,:);
+%         checkLaneSpacing = ((abs(currentTrackPiece(1)- currentTrackPiece(5)))^2  + (abs(currentTrackPiece(2) - currentTrackPiece(6)))^2)^0.5;
+%         if (abs(checkLaneSpacing - laneSpacing) > tolerance)
+%             fprintf('ERROR: something went wrong adding that piece.\n')
+%         end
  
     % update plot
     updatePlot(track)
