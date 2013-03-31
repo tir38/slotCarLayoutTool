@@ -62,12 +62,12 @@ global laneWidth
 laneWidth       = laneSpacing/2; % inches, distance between lane center and track center.
 
 global tightDiameter
-tightDiameter   = 28-(laneSpacing*2) % inches, turn diameter
+tightDiameter   = 28-(laneSpacing*2); % inches, turn diameter
 tightSegments   = 6; % number of segments that create 360 degrees turn
 tightTheta      = 2*pi/tightSegments; % radians, the arc angle of an individual piece
 
 global wideDiameter
-wideDiameter    = 42-(laneSpacing*2) % inches, turn diameter
+wideDiameter    = 42-(laneSpacing*2); % inches, turn diameter
 wideSegments    = 12; % number of segments that create 360 degree turn
 wideTheta       = 2*pi/wideSegments; % radians, the arc angle of an individual piece
 
@@ -77,16 +77,28 @@ tolerance       = 0.001; % inches, for this script, for comparing two floating p
 track = [0, laneWidth, 0, 0, 0, -laneWidth, 0, 0];
 
 myFig = figure();
+
 set(myFig, 'Position', [0,0,500,500])
 
 while 1~=0
+    %% get info on the current end of the track
+    [numberOfPieces, ~] = size(track);
+    lastPiece = track(numberOfPieces, :);
     
+    [numberOfStraights, ~]   = size(find(track(:,8) == 1));
+    [numberOfTightTurns, ~] = size([find(track(:,8) == 2); find(track(:,8) ==3)]);
+    [numberOfWideTurns, ~]  = size([find(track(:,8) == 4); find(track(:,8) ==5)]);
+    
+    fprintf('Currently have %i pieces in place: %i straights, %i tight turns, and %i wide turns.\n',numberOfPieces-1, numberOfStraights, numberOfTightTurns, numberOfWideTurns)
+        
+    % display current center point and heading
+    fprintf('Current center is [%.3f, %.3f] with heading = %.3f.\n',lastPiece(3), lastPiece(4), lastPiece(7))
+        
+    
+    
+    %% add piece to track
     nextPiece = input('======= Please select next element [1-5], delete last piece [6], or exit [7] =================\n');
     clc
-    % get info on the curren end of the track
-        [numberOfPieces, ~] = size(track)
-        lastPiece = track(numberOfPieces, :);
-        fprintf('Currently have %i pieces.\n',numberOfPieces+1)
 
     switch nextPiece
         case 1 % ===================================== straight piece
