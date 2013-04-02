@@ -33,6 +33,8 @@ Currently I have this setup for my Riggen brand track. If you want to change thi
 
     wideDiameter    = 42-(laneSpacing*2); % inches, turn diameter
     wideSegments    = 12; % number of segments that create 360 degree turn
+
+    scaleFactor     = 32; % scale factor for the model cars and track (1:32)
     
 Updates:
 =
