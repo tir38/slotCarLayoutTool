@@ -1,4 +1,3 @@
-- convert track distance from inches to miles based on scale factor
 - simple technique to reduce error propogation:
 	- round all headings to nearest degree
 

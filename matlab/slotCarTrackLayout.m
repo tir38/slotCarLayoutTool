@@ -12,8 +12,10 @@ function [] = slotCarTrackLayout ()
 %
 % subfuctions:
 % - addTurnPiece by JWA
-% - updatePlot by JWA
+% - getLeftRightLaneDistances by JWA
 % - plotArc by JWA
+% - round2 by Robert Bemis
+% - updatePlot by JWA
 %
 % notes:
 % Track variables:
@@ -222,7 +224,11 @@ while 1~=0
             
         otherwise
             fprintf('Not a valid entry.\n')
+            
     end
+    
+    % attempt to reduce error propogation
+    track(end:7) = round2(track(end:7), 1/(2*pi)); % round to nearest whole degree
  
     % update plot
     updatePlot(track)
