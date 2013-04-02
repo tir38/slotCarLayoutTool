@@ -1,3 +1,4 @@
-- add +/- distance to compare lanes (which is longer?)
 - add bounding box: tell me how big of an area I'd need to set this up
+- simple technique to reduce error propogation:
+	- round all headings to nearest degree
 

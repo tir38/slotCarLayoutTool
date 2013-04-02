@@ -104,6 +104,29 @@ while 1~=0
     [leftDistance, rightDistance] = getLeftRightLaneDistances(track(:,8));
     ratio = leftDistance/rightDistance;
     difference = abs(leftDistance - rightDistance);
+        
+    % get bounding box around the track
+    minX = min([min(track(:,1)), min(track(:,3)), min(track(:,5))]);
+    maxX = max([max(track(:,1)), max(track(:,3)), max(track(:,5))]);
+ 
+    minY = min([min(track(:,2)), min(track(:,4)), min(track(:,6))]);
+    maxY = max([max(track(:,2)), max(track(:,4)), max(track(:,6))]);
+    
+    bbWidth  = maxX - minX;
+    bbHeight = maxY - minY;
+    
+    
+    % convert current heading to [0 - 360] degrees for display
+    displayHeading = (180/pi)*lastPiece(7); %  convert do degrees
+    displayHeading = rem(displayHeading, 360); % reduce to single rotation
+    if (abs(displayHeading - 360)) < tolerance % simple fix so that function doesn't display 360
+        displayHeading = 0;
+    end
+    
+    % display stuff for user
+    figureString1 = sprintf('Currently have %i pieces in place: \n\t%i straights\t%i tight turns\t%i wide turns.\n',numberOfPieces-1, numberOfStraights, numberOfTightTurns, numberOfWideTurns);
+    figureString2 = sprintf('\nTrack length = %.3f inches.\n',centerLineDistance);
+    figureString3 = sprintf('\nCurrent center is [%.3f, %.3f] with heading = %.3f degrees.\n',lastPiece(3), lastPiece(4), displayHeading);
     if ratio < 1
         figureString4 = sprintf('\nBlue lane has advantage by %.2f inches.\n',difference);
     elseif ratio > 1
@@ -111,20 +134,9 @@ while 1~=0
     else
         figureString4 = sprintf('\nRed and Blue lanes are equal distance.\n');
     end
+    figureString5 = sprintf('\nTrack will take up an area [%.2f by %.2f] inches.\n', bbWidth, bbHeight);
     
-    % convert current heading to [0 - 360] degrees for display
-    heading = (180/pi)*lastPiece(7); %  convert do degrees
-    heading = rem(heading, 360); % reduce to single rotation
-    if (abs(heading - 360)) < tolerance % simple fix so that function doesn't display 360
-        heading = 0;
-    end
-    
-    % display stuff for user
-    figureString1 = sprintf('Currently have %i pieces in place: \n\t%i straights\t%i tight turns\t%i wide turns.\n',numberOfPieces-1, numberOfStraights, numberOfTightTurns, numberOfWideTurns);
-    figureString2 = sprintf('\nTrack length = %.3f inches.\n',centerLineDistance);
-    figureString3 = sprintf('\nCurrent center is [%.3f, %.3f] with heading = %.3f degrees.\n',lastPiece(3), lastPiece(4), heading);
-
-    title(strcat(figureString1, figureString2, figureString3, figureString4));
+    title(strcat(figureString1, figureString2, figureString3, figureString4, figureString5));
     
     %% add piece to track
     nextPiece = input('=================\nPlease select an option:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n[6] delete last piece\n[7] save track\n[8] exit\n=================\n');
