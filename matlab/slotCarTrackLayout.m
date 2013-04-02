@@ -11,7 +11,9 @@ function [] = slotCarTrackLayout ()
 % - none
 %
 % subfuctions:
-% - none
+% - addTurnPiece by JWA
+% - updatePlot by JWA
+% - plotArc by JWA
 %
 % notes:
 % Track variables:

@@ -1,6 +1,27 @@
 function [track] = addTurnPiece(track, diameter, theta, lastPiece, leftOrRight)
+% Jason Atwood
+% 03/29/2013
+%
+% description:
+%  adds a single turn piece to the 'track' matrix, can do left/right
+%  tight/wide turns.
+%
+% inputs:
+% - track       : [n x 8] matrix contains prior track pieces
+% - diameter    : turn diameter in inches
+% - theta       : arc angle of an individual piece
+% - lastPiece   : the last row of track (yes I could compute that in here,
+%                   since I have 'track', but its all the same)
+% - leftOrRight : string, 'left' or 'right' describes which direction the
+%                   turn will go. relative to prior piece
+%
+% outputs:
+% track   : [n+1 x 8] matrix contains prior track pieces plus one new one
+%
+% subfuctions:
+% - none
 
-global laneWidth
+global laneWid
 
 lastHeading = lastPiece(7);
 

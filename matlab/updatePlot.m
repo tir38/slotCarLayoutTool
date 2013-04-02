@@ -1,10 +1,26 @@
 function [] = updatePlot(track)
+% Jason Atwood
+% 03/29/2013
+%
+% description:
+%  does all plotting of the track
+%
+% inputs:
+% - track       : [n x 8] matrix contains all track pieces
+%
+% outputs:
+% none
+%
+% subfuctions:
+% - plotArc by JWA
+% 
+% notes:
+% this method assumes that a figure is already open and selected
 
 
 global tightDiameter
 global wideDiameter
 global laneWidth
-
 
 clf % clear current figure
 [numberOfPieces, ~] = size(track);
@@ -43,7 +59,7 @@ for i = 1:numberOfPieces
             
             hold on
             
-        case {3,5}
+        case {3,5} % plot CW arc for right turn
              [xunit, yunit] = plotArc([track(i-1,1),track(i-1,2)], [track(i,1),track(i,2)], radius + laneWidth, 1);
             plot(xunit, yunit,'b');
             hold on
