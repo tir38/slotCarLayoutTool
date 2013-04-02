@@ -62,7 +62,6 @@ global laneWidth
 global tightDiameter
 global wideDiameter
 
-
 % user-set track parameters
 laneSpacing     = 3.5; % inches, distance between left and right lanes
 straightLength  = 12.0; % inches
@@ -77,7 +76,6 @@ wideSegments    = 12; % number of segments that create 360 degree turn
 laneWidth       = laneSpacing/2; % inches, distance between lane center and track center.
 tightTheta      = 2*pi/tightSegments; % radians, the arc angle of an individual piece
 wideTheta       = 2*pi/wideSegments; % radians, the arc angle of an individual piece
-
 
 % initialize track
 track = [0, laneWidth, 0, 0, 0, -laneWidth, 0, 0];
@@ -95,18 +93,17 @@ while 1~=0
     [numberOfTightTurns, ~] = size([find(track(:,8) == 2); find(track(:,8) ==3)]);
     [numberOfWideTurns, ~]  = size([find(track(:,8) == 4); find(track(:,8) ==5)]);
     
+    % display stuff for user
     fprintf('Currently have %i pieces in place: %i straights, %i tight turns, and %i wide turns.\n',numberOfPieces-1, numberOfStraights, numberOfTightTurns, numberOfWideTurns)
 
     centerLineDistance = (numberOfStraights * straightLength) + (numberOfTightTurns * pi*tightDiameter/tightSegments) + (numberOfWideTurns * pi*wideDiameter/wideSegments);
     fprintf('Track length is currently %.3f inches.\n',centerLineDistance)
     
-    % display current center point and heading
     fprintf('Current center is [%.3f, %.3f] with heading = %.3f.\n',lastPiece(3), lastPiece(4), lastPiece(7))
-        
-    
+
     
     %% add piece to track
-    nextPiece = input('======= Please select next element [1-5], delete last piece [6], or exit [7] =================\n');
+    nextPiece = input('======= Please select next element [1-5], delete last piece [6], save track[7], or exit [8] =================\n');
     clc
 
     switch nextPiece
@@ -167,10 +164,16 @@ while 1~=0
                 track = track(1:numberOfPieces-1,:); % remove last piece
             end
             
+
+        case 7 % =====================================  save current figure
+            [fileName, pathName] = uiputfile('*.png','Save Track As...');
+            saveas(myFig, fileName);
+
             
-        case 7 % =====================================  exit program
+        case 8 % =====================================  exit program
             fprintf('Thanks for using.....goodbye.\n')
             break
+            
             
         otherwise
             fprintf('Not a valid entry.\n')
