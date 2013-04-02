@@ -58,23 +58,26 @@ commandwindow
 warning on verbose
 %% ========== code ==========
 %% setup
-% track parameters
+global laneWidth
+global tightDiameter
+global wideDiameter
+
+
+% user-set track parameters
 laneSpacing     = 3.5; % inches, distance between left and right lanes
 straightLength  = 12.0; % inches
-global laneWidth
-laneWidth       = laneSpacing/2; % inches, distance between lane center and track center.
 
-global tightDiameter
 tightDiameter   = 28-(laneSpacing*2); % inches, turn diameter
 tightSegments   = 6; % number of segments that create 360 degrees turn
-tightTheta      = 2*pi/tightSegments; % radians, the arc angle of an individual piece
 
-global wideDiameter
 wideDiameter    = 42-(laneSpacing*2); % inches, turn diameter
 wideSegments    = 12; % number of segments that create 360 degree turn
+
+% track parameters derived from other parameters
+laneWidth       = laneSpacing/2; % inches, distance between lane center and track center.
+tightTheta      = 2*pi/tightSegments; % radians, the arc angle of an individual piece
 wideTheta       = 2*pi/wideSegments; % radians, the arc angle of an individual piece
 
-tolerance       = 0.001; % inches, for this script, for comparing two floating point numbers
 
 % initialize track
 track = [0, laneWidth, 0, 0, 0, -laneWidth, 0, 0];
