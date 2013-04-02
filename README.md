@@ -16,8 +16,10 @@ To Use:
     5 = right turn, larger radius  
 
 4. If you make a mistake, you can remove the last piece by entering '6'.
-5. Keep adding track until you are finished. At any time you can save your track to a .png by pressing '7'
-6. At any time, you can exit the function by pressing '8'.
+5. You can insert a piece in the middle by pressing '7', selecting the point on the map you want to insert.
+6. The insert point will become green. Here you can choose to insert any piece like above (1-5), or you can cancel the insert.
+7. Keep adding track until you are finished. At any time you can save your track to a .png by pressing '8'
+8. At any time, you can exit the function by pressing '9'.
 
 
 Notes:
@@ -35,6 +37,8 @@ Currently I have this setup for my Riggen brand track. If you want to change thi
     wideSegments    = 12; % number of segments that create 360 degree turn
 
     scaleFactor     = 32; % scale factor for the model cars and track (1:32)
+
+There is no way to currently remove pieces from the middle of a map.
     
 Updates:
 =

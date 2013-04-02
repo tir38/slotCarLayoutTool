@@ -11,8 +11,10 @@ function [] = slotCarTrackLayout ()
 % - none
 %
 % subfuctions:
+% - addOrDeletePiece by JWA
 % - addTurnPiece by JWA
 % - getLeftRightLaneDistances by JWA
+% - insertHere by JWA
 % - plotArc by JWA
 % - round2 by Robert Bemis
 % - updatePlot by JWA
@@ -67,6 +69,8 @@ global wideDiameter
 global wideSegments
 global straightLength
 global laneSpacing
+global tightTheta
+global wideTheta
 
 tolerance = 0.001; % tolerance when comparing floats
 
@@ -144,70 +148,19 @@ while 1~=0
     
     title(strcat(figureString1, figureString2, figureString3, figureString4, figureString5));
     
-    %% add piece to track
-    nextPiece = input('=================\nPlease select an option:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n[6] delete last piece\n[7] save track\n[8] exit\n=================\n');
+    %% DO ACTUAL TASK
+    nextPiece = input('=================\nPlease select an option:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n[6] delete last piece\n[7] insert piece\n[8]save track\n[9] exit\n=================\n');
     clc
 
     switch nextPiece
-        case 1 % ===================================== straight piece
-            track = [track;...
-                        lastPiece(1) + straightLength*cos(lastPiece(7)), ...    % left_x
-                        lastPiece(2) + straightLength*sin(lastPiece(7)), ...    % left_y
-                        lastPiece(3) + straightLength*cos(lastPiece(7)), ...    % center_x
-                        lastPiece(4) + straightLength*sin(lastPiece(7)), ...    % center_y
-                        lastPiece(5) + straightLength*cos(lastPiece(7)), ...    % left_y
-                        lastPiece(6) + straightLength*sin(lastPiece(7)), ...    % right_y
-                        lastPiece(7), ....                                      % heading didn't change
-                        1];                                                      % straight piece
-
-                    
-        case 2 % ===================================== left turn, tight radius
-            diameter = tightDiameter;
-            theta = tightTheta;
-            leftOrRight = 'left';
+        
+        case {1, 2, 3, 4, 5, 6} % =====================================  add or delete a piece
+            track = addOrDeletePiece(nextPiece, track);
+        
+        case 7
+            track = insertHere(track);
             
-            track = addTurnPiece(track, diameter, theta, lastPiece, leftOrRight);
-            [currentTrackSize, ~] = size(track);
-            track(currentTrackSize, 8) = nextPiece; % set track type here
-             
-            
-        case 3 % ===================================== right turn, tight radius
-            diameter = tightDiameter;
-            theta = -1*tightTheta;
-            leftOrRight = 'right';
-            
-            track = addTurnPiece(track, diameter, theta, lastPiece, leftOrRight);
-            [currentTrackSize, ~] = size(track);
-            track(currentTrackSize, 8) = nextPiece; % set track type here
-
-            
-        case 4  % ===================================== left turn, wide radius
-            diameter = wideDiameter;
-            theta = wideTheta;
-            leftOrRight = 'left';
-            
-            track = addTurnPiece(track, diameter, theta, lastPiece, leftOrRight);
-            [currentTrackSize, ~] = size(track);
-            track(currentTrackSize, 8) = nextPiece; % set track type here
-       
-            
-        case 5 % ===================================== right turn, wide radius
-            diameter = wideDiameter;
-            theta = -1* wideTheta;
-            leftOrRight = 'right';
-            
-            track = addTurnPiece(track, diameter, theta, lastPiece, leftOrRight);
-            [currentTrackSize, ~] = size(track);
-            track(currentTrackSize, 8) = nextPiece; % set track type here
-            
-            
-        case 6 % ===================================== delete last piece
-            if numberOfPieces >= 2
-                track = track(1:numberOfPieces-1,:); % remove last piece
-            end
-            
-
-        case 7 % =====================================  save current track
+        case 8 % =====================================  save current track
             [fileName, pathName] = uiputfile('*.png','Save Track As...');
             
             if ~ischar(fileName) || isempty(fileName) % confirm that filename is valid
@@ -217,10 +170,9 @@ while 1~=0
                 fprintf('Save complete.\n')
             end
             
-        case 8 % =====================================  exit program
+        case 9 % =====================================  exit program
             fprintf('Thanks for using.....goodbye.\n')
             break
-            
             
         otherwise
             fprintf('Not a valid entry.\n')
@@ -233,5 +185,5 @@ while 1~=0
     % update plot
     updatePlot(track)
     axis off % i have to do this ever time
-
+    
 end
