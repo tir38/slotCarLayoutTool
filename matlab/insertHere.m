@@ -35,11 +35,11 @@ nearestPiece = rem(indices(1), numberOfPieces);
 
 % visualize which point and piece was selected
 hold on
-plot(track(nearestPiece, 1), track(nearestPiece, 2), 'co')
+plot(track(nearestPiece, 1), track(nearestPiece, 2), 'go')
 hold on
-plot(track(nearestPiece, 3), track(nearestPiece, 4), 'co')
+plot(track(nearestPiece, 3), track(nearestPiece, 4), 'go')
 hold on
-plot(track(nearestPiece, 5), track(nearestPiece, 6), 'co')
+plot(track(nearestPiece, 5), track(nearestPiece, 6), 'go')
 hold on
 
 % break the track at that point into two segments startSegment, endSegment
@@ -47,8 +47,8 @@ startSegment = track(1:nearestPiece, :); % start Segment
 endSegment = track(nearestPiece+1:end, 8); % I only care about the piece type. I am going to recompute the point locations later.
 
 % insert the piece I want]
-insertPiece = input('=================\nWhat do you want to insert [1-5] or cancel[6]?:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n=================\n');
-if insertPiece == 6
+insertPiece = input('=================\nWhat do you want to insert [1-5], delete[6], or cancel[7]?:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n=================\n');
+if insertPiece == 7
     clc
     fprintf('Canceling insert.\n')
     return
