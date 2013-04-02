@@ -66,6 +66,8 @@ global wideSegments
 global straightLength
 global laneSpacing
 
+tolerance = 0.001; % tolerance when comparing floats
+
 % user-set track parameters
 laneSpacing     = 3.5; % inches, distance between left and right lanes
 straightLength  = 12.0; % inches
@@ -110,11 +112,17 @@ while 1~=0
         figureString4 = sprintf('\nRed and Blue lanes are equal distance.\n');
     end
     
+    % convert current heading to [0 - 360] degrees for display
+    heading = (180/pi)*lastPiece(7); %  convert do degrees
+    heading = rem(heading, 360); % reduce to single rotation
+    if (abs(heading - 360)) < tolerance % simple fix so that function doesn't display 360
+        heading = 0;
+    end
     
     % display stuff for user
     figureString1 = sprintf('Currently have %i pieces in place: \n\t%i straights\t%i tight turns\t%i wide turns.\n',numberOfPieces-1, numberOfStraights, numberOfTightTurns, numberOfWideTurns);
     figureString2 = sprintf('\nTrack length = %.3f inches.\n',centerLineDistance);
-    figureString3 = sprintf('\nCurrent center is [%.3f, %.3f] with heading = %.3f.\n',lastPiece(3), lastPiece(4), lastPiece(7));
+    figureString3 = sprintf('\nCurrent center is [%.3f, %.3f] with heading = %.3f degrees.\n',lastPiece(3), lastPiece(4), heading);
 
     title(strcat(figureString1, figureString2, figureString3, figureString4));
     
@@ -188,8 +196,8 @@ while 1~=0
                 fprintf('ERROR, invalid file name. Try again\n')
             else
                 saveas(myFig, fileName);
+                fprintf('Save complete.\n')
             end
-
             
         case 8 % =====================================  exit program
             fprintf('Thanks for using.....goodbye.\n')
