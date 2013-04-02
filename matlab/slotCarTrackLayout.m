@@ -94,13 +94,14 @@ while 1~=0
     [numberOfWideTurns, ~]  = size([find(track(:,8) == 4); find(track(:,8) ==5)]);
     
     % display stuff for user
-    fprintf('Currently have %i pieces in place: %i straights, %i tight turns, and %i wide turns.\n',numberOfPieces-1, numberOfStraights, numberOfTightTurns, numberOfWideTurns)
+    figureString1 = sprintf('Currently have %i pieces in place: \n\t%i straights\t%i tight turns\t%i wide turns.\n',numberOfPieces-1, numberOfStraights, numberOfTightTurns, numberOfWideTurns);
 
     centerLineDistance = (numberOfStraights * straightLength) + (numberOfTightTurns * pi*tightDiameter/tightSegments) + (numberOfWideTurns * pi*wideDiameter/wideSegments);
-    fprintf('Track length is currently %.3f inches.\n',centerLineDistance)
+    figureString2 = sprintf('\nTrack length = %.3f inches.\n',centerLineDistance);
     
-    fprintf('Current center is [%.3f, %.3f] with heading = %.3f.\n',lastPiece(3), lastPiece(4), lastPiece(7))
+    figureString3 = sprintf('\nCurrent center is [%.3f, %.3f] with heading = %.3f.\n',lastPiece(3), lastPiece(4), lastPiece(7));
 
+    title(strcat(figureString1, figureString2, figureString3));
     
     %% add piece to track
     nextPiece = input('======= Please select next element [1-5], delete last piece [6], save track[7], or exit [8] =================\n');
