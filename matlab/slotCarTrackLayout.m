@@ -91,6 +91,8 @@ track = [0, laneWidth, 0, 0, 0, -laneWidth, 0, 0];
 % initialize figure
 myFig = figure();
 set(myFig, 'Position', [0,0,700,700])
+axis off 
+
 
 while 1~=0
     %% get info on the current end of the track
@@ -101,7 +103,7 @@ while 1~=0
     [numberOfTightTurns, ~] = size([find(track(:,8) == 2); find(track(:,8) ==3)]);
     [numberOfWideTurns, ~]  = size([find(track(:,8) == 4); find(track(:,8) ==5)]);
     centerLineDistance = (numberOfStraights * straightLength) + (numberOfTightTurns * pi*tightDiameter/tightSegments) + (numberOfWideTurns * pi*wideDiameter/wideSegments);
-    centerLineDistanceMiles = centerLineDistance*scaleFactor/12/5280
+    centerLineDistanceMiles = centerLineDistance*scaleFactor/12/5280;
     
     % get left and right lane distances
     [leftDistance, rightDistance] = getLeftRightLaneDistances(track(:,8));
@@ -224,4 +226,6 @@ while 1~=0
  
     % update plot
     updatePlot(track)
+    axis off % i have to do this ever time
+
 end
