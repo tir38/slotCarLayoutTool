@@ -21,7 +21,7 @@ function [track] = addTurnPiece(track, diameter, theta, lastPiece, leftOrRight)
 % subfuctions:
 % - none
 
-global laneWid
+global laneWidth
 
 lastHeading = lastPiece(7);
 

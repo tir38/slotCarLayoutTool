@@ -16,7 +16,7 @@ To Use:
 
 4. If you make a mistake, you can remove the last piece by entering '6'.
 5. Keep adding track until you are finished.
-6. At any time, you can exit the funciton by pressing '7'.
+6. At any time, you can exit the function by pressing '7'.
 
 
 Notes:
