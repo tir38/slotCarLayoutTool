@@ -48,6 +48,11 @@ endSegment = track(nearestPiece+1:end, 8); % I only care about the piece type. I
 
 % insert the piece I want]
 insertPiece = input('=================\nWhat do you want to insert [1-5], delete[6], or cancel[7]?:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n=================\n');
+
+if ~isnumeric(insertPiece) || isempty(insertPiece) % confirm that input is valid
+    return;
+end
+
 if insertPiece == 7
     clc
     fprintf('Canceling insert.\n')

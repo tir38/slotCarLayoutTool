@@ -152,6 +152,10 @@ while 1~=0
     nextPiece = input('=================\nPlease select an option:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n[6] delete last piece\n[7] insert or delete piece\n[8] save track\n[9] exit\n=================\n');
     clc
 
+    if ~isnumeric(nextPiece) || isempty(nextPiece) % confirm that input is valid
+        nextPiece = -1;
+    end
+    
     switch nextPiece
         
         case {1, 2, 3, 4, 5, 6} % =====================================  add or delete a piece
