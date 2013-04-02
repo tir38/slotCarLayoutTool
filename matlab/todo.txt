@@ -1,4 +1,4 @@
-- add bounding box: tell me how big of an area I'd need to set this up
+- convert track distance from inches to miles based on scale factor
 - simple technique to reduce error propogation:
 	- round all headings to nearest degree
 

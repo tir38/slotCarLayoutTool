@@ -78,6 +78,8 @@ tightSegments   = 6; % number of segments that create 360 degrees turn
 wideDiameter    = 42-(laneSpacing*2); % inches, centerline turn diameter
 wideSegments    = 12; % number of segments that create 360 degree turn
 
+scaleFactor     = 32; % scale factor for the model cars and track (1:32)
+
 % track parameters derived from other parameters
 laneWidth       = laneSpacing/2; % inches, distance between lane center and track center.
 tightTheta      = 2*pi/tightSegments; % radians, the arc angle of an individual piece
@@ -99,7 +101,8 @@ while 1~=0
     [numberOfTightTurns, ~] = size([find(track(:,8) == 2); find(track(:,8) ==3)]);
     [numberOfWideTurns, ~]  = size([find(track(:,8) == 4); find(track(:,8) ==5)]);
     centerLineDistance = (numberOfStraights * straightLength) + (numberOfTightTurns * pi*tightDiameter/tightSegments) + (numberOfWideTurns * pi*wideDiameter/wideSegments);
-
+    centerLineDistanceMiles = centerLineDistance*scaleFactor/12/5280
+    
     % get left and right lane distances
     [leftDistance, rightDistance] = getLeftRightLaneDistances(track(:,8));
     ratio = leftDistance/rightDistance;
@@ -115,7 +118,6 @@ while 1~=0
     bbWidth  = maxX - minX;
     bbHeight = maxY - minY;
     
-    
     % convert current heading to [0 - 360] degrees for display
     displayHeading = (180/pi)*lastPiece(7); %  convert do degrees
     displayHeading = rem(displayHeading, 360); % reduce to single rotation
@@ -125,7 +127,7 @@ while 1~=0
     
     % display stuff for user
     figureString1 = sprintf('Currently have %i pieces in place: \n\t%i straights\t%i tight turns\t%i wide turns.\n',numberOfPieces-1, numberOfStraights, numberOfTightTurns, numberOfWideTurns);
-    figureString2 = sprintf('\nTrack length = %.3f inches.\n',centerLineDistance);
+    figureString2 = sprintf('\nTrack length = %.3f inches; at scale thats %.3f miles\n',centerLineDistance, centerLineDistanceMiles);
     figureString3 = sprintf('\nCurrent center is [%.3f, %.3f] with heading = %.3f degrees.\n',lastPiece(3), lastPiece(4), displayHeading);
     if ratio < 1
         figureString4 = sprintf('\nBlue lane has advantage by %.2f inches.\n',difference);
