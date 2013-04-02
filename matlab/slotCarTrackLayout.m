@@ -60,16 +60,20 @@ warning on verbose
 %% setup
 global laneWidth
 global tightDiameter
+global tightSegments
 global wideDiameter
+global wideSegments
+global straightLength
+global laneSpacing
 
 % user-set track parameters
 laneSpacing     = 3.5; % inches, distance between left and right lanes
 straightLength  = 12.0; % inches
 
-tightDiameter   = 28-(laneSpacing*2); % inches, turn diameter
+tightDiameter   = 28-(laneSpacing*2); % inches, centerline turn diameter
 tightSegments   = 6; % number of segments that create 360 degrees turn
 
-wideDiameter    = 42-(laneSpacing*2); % inches, turn diameter
+wideDiameter    = 42-(laneSpacing*2); % inches, centerline turn diameter
 wideSegments    = 12; % number of segments that create 360 degree turn
 
 % track parameters derived from other parameters
@@ -92,16 +96,27 @@ while 1~=0
     [numberOfStraights, ~]   = size(find(track(:,8) == 1));
     [numberOfTightTurns, ~] = size([find(track(:,8) == 2); find(track(:,8) ==3)]);
     [numberOfWideTurns, ~]  = size([find(track(:,8) == 4); find(track(:,8) ==5)]);
+    centerLineDistance = (numberOfStraights * straightLength) + (numberOfTightTurns * pi*tightDiameter/tightSegments) + (numberOfWideTurns * pi*wideDiameter/wideSegments);
+
+    % get left and right lane distances
+    [leftDistance, rightDistance] = getLeftRightLaneDistances(track(:,8));
+    ratio = leftDistance/rightDistance;
+    difference = abs(leftDistance - rightDistance);
+    if ratio < 1
+        figureString4 = sprintf('\nBlue lane has advantage by %.2f inches.\n',difference);
+    elseif ratio > 1
+        figureString4 = sprintf('\nRed lane has advantage by %.2f inches.\n',difference);
+    else
+        figureString4 = sprintf('\nRed and Blue lanes are equal distance.\n');
+    end
+    
     
     % display stuff for user
     figureString1 = sprintf('Currently have %i pieces in place: \n\t%i straights\t%i tight turns\t%i wide turns.\n',numberOfPieces-1, numberOfStraights, numberOfTightTurns, numberOfWideTurns);
-
-    centerLineDistance = (numberOfStraights * straightLength) + (numberOfTightTurns * pi*tightDiameter/tightSegments) + (numberOfWideTurns * pi*wideDiameter/wideSegments);
     figureString2 = sprintf('\nTrack length = %.3f inches.\n',centerLineDistance);
-    
     figureString3 = sprintf('\nCurrent center is [%.3f, %.3f] with heading = %.3f.\n',lastPiece(3), lastPiece(4), lastPiece(7));
 
-    title(strcat(figureString1, figureString2, figureString3));
+    title(strcat(figureString1, figureString2, figureString3, figureString4));
     
     %% add piece to track
     nextPiece = input('======= Please select next element [1-5], delete last piece [6], save track[7], or exit [8] =================\n');
@@ -166,9 +181,14 @@ while 1~=0
             end
             
 
-        case 7 % =====================================  save current figure
+        case 7 % =====================================  save current track
             [fileName, pathName] = uiputfile('*.png','Save Track As...');
-            saveas(myFig, fileName);
+            
+            if ~ischar(fileName) || isempty(fileName) % confirm that filename is valid
+                fprintf('ERROR, invalid file name. Try again\n')
+            else
+                saveas(myFig, fileName);
+            end
 
             
         case 8 % =====================================  exit program
