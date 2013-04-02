@@ -7,12 +7,12 @@ To Use:
 =
 1. Lanuch the function from the MATLAB command window:  
 2. At this point a blank figure appears. It may be best to resize the command window to show command window and figure at the same time. 
-3. Select your first track piece and type a number into the command window
-    1 = straight
-    2 = left turn, tighter radius
-    3 = right turn, tighter radius
-    4 = left turn, larger radius
-    5 = right turn, larger radius
+3. Select your first track piece and type a number into the command window:  
+    1 = straight  
+    2 = left turn, tighter radius  
+    3 = right turn, tighter radius  
+    4 = left turn, larger radius  
+    5 = right turn, larger radius  
 
 4. If you make a mistake, you can remove the last piece by entering '6'.
 5. At any time, you can exit the funciton by pressing '7'.
