@@ -86,7 +86,7 @@ track = [0, laneWidth, 0, 0, 0, -laneWidth, 0, 0];
 
 % initialize figure
 myFig = figure();
-set(myFig, 'Position', [0,0,500,500])
+set(myFig, 'Position', [0,0,700,700])
 
 while 1~=0
     %% get info on the current end of the track
@@ -119,7 +119,7 @@ while 1~=0
     title(strcat(figureString1, figureString2, figureString3, figureString4));
     
     %% add piece to track
-    nextPiece = input('======= Please select next element [1-5], delete last piece [6], save track[7], or exit [8] =================\n');
+    nextPiece = input('=================\nPlease select an option:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n[6] delete last piece\n[7] save track\n[8] exit\n=================\n');
     clc
 
     switch nextPiece
