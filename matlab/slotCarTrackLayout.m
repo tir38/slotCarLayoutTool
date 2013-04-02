@@ -55,6 +55,7 @@ clc
 commandwindow
 warning on verbose
 %% ========== code ==========
+%% setup
 % track parameters
 laneSpacing     = 3.5; % inches, distance between left and right lanes
 straightLength  = 12.0; % inches
@@ -76,8 +77,8 @@ tolerance       = 0.001; % inches, for this script, for comparing two floating p
 % initialize track
 track = [0, laneWidth, 0, 0, 0, -laneWidth, 0, 0];
 
+% initialize figure
 myFig = figure();
-
 set(myFig, 'Position', [0,0,500,500])
 
 while 1~=0
@@ -115,120 +116,60 @@ while 1~=0
                         lastPiece(7), ....                                      % heading didn't change
                         1];                                                      % straight piece
 
+                    
         case 2 % ===================================== left turn, tight radius
-            currentTrackPiece = []; % to store the 8 values for this piece
+            diameter = tightDiameter;
+            theta = tightTheta;
+            leftOrRight = 'left';
             
-            for i = -1:1:1 % for each track
-                radius = (tightDiameter/2) + (i*laneWidth);
-                chord = 2*sin(tightTheta/2)* radius;
-                
-                parallelDistance        = chord * cos(tightTheta/2);
-                perpendicularDistance   = chord * sin(tightTheta/2);
-                
-                deltaX = parallelDistance*cos(lastPiece(7)) + perpendicularDistance*cos((pi/2) + lastPiece(7));
-                deltaY = parallelDistance*sin(lastPiece(7)) + perpendicularDistance*sin((pi/2) + lastPiece(7));
-                
-                x = lastPiece(2*i+3) + deltaX; % specific to turning left
-                y = lastPiece(2*i+4) + deltaY;
-                
-                currentTrackPiece = [currentTrackPiece, x, y]; % "pop" x,y onto currentTrackPiece
-            end
-            
-            newHeading = lastPiece(7) + tightTheta;
-            currentTrackPiece = [currentTrackPiece, newHeading, 2];
-            track = [track; currentTrackPiece]; % "pop" onto list of track pieces
+            track = addTurnPiece(track, diameter, theta, lastPiece, leftOrRight);
+            [currentTrackSize, ~] = size(track);
+            track(currentTrackSize, 8) = nextPiece; % set track type here
              
+            
         case 3 % ===================================== right turn, tight radius
-            currentTrackPiece = []; % to store the 8 values for this piece
+            diameter = tightDiameter;
+            theta = -1*tightTheta;
+            leftOrRight = 'right';
             
-            for i = 1:-1:-1 % for each track
-                radius = (tightDiameter/2) + (i*laneWidth);
-                chord = 2*sin(tightTheta/2)* radius;
-                
-                parallelDistance        = chord * cos(-tightTheta/2);
-                perpendicularDistance   = chord * sin(-tightTheta/2);
-                
-                deltaX = parallelDistance*cos(lastPiece(7)) + perpendicularDistance*cos((pi/2) + lastPiece(7));
-                deltaY = parallelDistance*sin(lastPiece(7)) + perpendicularDistance*sin((pi/2) + lastPiece(7));
-                
-                x = lastPiece(-2*i+3) + deltaX; % specific to turning right
-                y = lastPiece(-2*i+4) + deltaY;
-                
-                currentTrackPiece = [currentTrackPiece, x, y]; % "pop" x,y onto currentTrackPiece
-            end
-            
-            newHeading = lastPiece(7) - tightTheta;
-            currentTrackPiece = [currentTrackPiece, newHeading, 3];
-            track = [track; currentTrackPiece]; % "pop" onto list of track pieces
+            track = addTurnPiece(track, diameter, theta, lastPiece, leftOrRight);
+            [currentTrackSize, ~] = size(track);
+            track(currentTrackSize, 8) = nextPiece; % set track type here
+
             
         case 4  % ===================================== left turn, wide radius
+            diameter = wideDiameter;
+            theta = wideTheta;
+            leftOrRight = 'left';
             
-            currentTrackPiece = []; % to store the 8 values for this piece
-            
-            for i = -1:1:1 % for each track
-                radius = (wideDiameter/2) + (i*laneWidth);
-                chord = 2*sin(wideTheta/2)* radius;
-                
-                parallelDistance        = chord * cos(wideTheta/2);
-                perpendicularDistance   = chord * sin(wideTheta/2);
-                
-                deltaX = parallelDistance*cos(lastPiece(7)) + perpendicularDistance*cos((pi/2) + lastPiece(7));
-                deltaY = parallelDistance*sin(lastPiece(7)) + perpendicularDistance*sin((pi/2) + lastPiece(7));
-                
-                x = lastPiece(2*i+3) + deltaX; % specific to turning left
-                y = lastPiece(2*i+4) + deltaY;
-                
-                currentTrackPiece = [currentTrackPiece, x, y]; % "pop" x,y onto currentTrackPiece
-            end
-            
-            newHeading = lastPiece(7) + wideTheta;
-            currentTrackPiece = [currentTrackPiece, newHeading, 4];
-            track = [track; currentTrackPiece]; % "pop" onto list of track pieces
-            
+            track = addTurnPiece(track, diameter, theta, lastPiece, leftOrRight);
+            [currentTrackSize, ~] = size(track);
+            track(currentTrackSize, 8) = nextPiece; % set track type here
+       
             
         case 5 % ===================================== right turn, wide radius
-            currentTrackPiece = []; % to store the 8 values for this piece
+            diameter = wideDiameter;
+            theta = -1* wideTheta;
+            leftOrRight = 'right';
             
-            for i = 1:-1:-1 % for each track
-                radius = (wideDiameter/2) + (i*laneWidth);
-                chord = 2*sin(wideTheta/2)* radius;
-                
-                parallelDistance        = chord * cos(-wideTheta/2);
-                perpendicularDistance   = chord * sin(-wideTheta/2);
-                
-                deltaX = parallelDistance*cos(lastPiece(7)) + perpendicularDistance*cos((pi/2) + lastPiece(7));
-                deltaY = parallelDistance*sin(lastPiece(7)) + perpendicularDistance*sin((pi/2) + lastPiece(7));
-                
-                x = lastPiece(-2*i+3) + deltaX; % specific to turning right
-                y = lastPiece(-2*i+4) + deltaY;
-                
-                currentTrackPiece = [currentTrackPiece, x, y]; % "pop" x,y onto currentTrackPiece
-            end
+            track = addTurnPiece(track, diameter, theta, lastPiece, leftOrRight);
+            [currentTrackSize, ~] = size(track);
+            track(currentTrackSize, 8) = nextPiece; % set track type here
             
-            newHeading = lastPiece(7) - wideTheta;
-            currentTrackPiece = [currentTrackPiece, newHeading, 5];
-            track = [track; currentTrackPiece]; % "pop" onto list of track pieces
             
-        case 6
+        case 6 % ===================================== delete last piece
             if numberOfPieces >= 2
                 track = track(1:numberOfPieces-1,:); % remove last piece
             end
             
-        case 7
+            
+        case 7 % =====================================  exit program
             fprintf('Thanks for using.....goodbye.\n')
             break
             
         otherwise
             fprintf('Not a valid entry.\n')
     end
-    
-%     % validate addition of new piece:
-%         % confirm that lanes are still the same distance appart
-%         currentTrackPiece = track(numberOfPieces+1,:);
-%         checkLaneSpacing = ((abs(currentTrackPiece(1)- currentTrackPiece(5)))^2  + (abs(currentTrackPiece(2) - currentTrackPiece(6)))^2)^0.5;
-%         if (abs(checkLaneSpacing - laneSpacing) > tolerance)
-%             fprintf('ERROR: something went wrong adding that piece.\n')
-%         end
  
     % update plot
     updatePlot(track)
