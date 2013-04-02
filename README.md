@@ -19,6 +19,7 @@ To Use:
 
 
 Notes:
+=
 Currently I have this setup for my Riggen brand track. If you want to change this function for your track type, you can update the slotCarTrackLayout.m file as shown:
 
     % user-set track parameters
