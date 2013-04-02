@@ -33,5 +33,6 @@ Currently I have this setup for my Riggen brand track. If you want to change thi
     wideSegments    = 12; % number of segments that create 360 degree turn
     
 Updates:
+=
 I don't know that I will spend much time updating this. If you would like to contribute, just fork and send me a pull request.
 
