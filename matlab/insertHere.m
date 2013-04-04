@@ -7,10 +7,10 @@ function[track] = insertHere(track)
 %  tight/wide turns.
 %
 % inputs:
-% - track       : [n x 8] matrix contains prior track pieces
+% - track : [n x 8] matrix contains prior track pieces
 %
 % outputs:
-% track   : [n+1 x 8] matrix contains prior track pieces plus one new one
+% - track : [n+1 x 8] matrix contains prior track pieces plus one new one
 %
 % subfuctions:
 % - pdist2 by Piotr Dollar

@@ -3,19 +3,19 @@ function [rebuiltTrack] = rebuild(track)
 % 04/01/2013
 %
 % description:
-%  rebuilds the track piece by piece. basically for propgating any changes
+%  rebuilds the track piece by piece. This is for propgating any changes
 %  to inside pieces. If for example, I change the 10th piece. I will need
 %  to rebuild pieces 11, 12, .... to the end. So by rebuilding the entire
-%  track. I propogate any and all internal changes. In this way I can make
+%  track, I propogate any and all internal changes. In this way I can make
 %  individual changes to elements and everything will be fine. I can also
 %  use this to rebuild changes to the starting condition, for example
 %  rotating the entire track.
 %
 % inputs:
-% - track       : [n x 8] matrix contains prior track pieces
+% - track : [n x 8] matrix contains prior track pieces
 %
 % outputs:
-% track   : [n+1 x 8] matrix contains prior track pieces plus one new one
+% - rebuiltTrack : [n x 8] matrix contains rebuilt track pieces
 %
 
 [numberOfPieces, ~] = size(track);

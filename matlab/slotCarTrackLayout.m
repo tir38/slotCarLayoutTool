@@ -3,6 +3,8 @@ function [] = slotCarTrackLayout ()
 % 03/29/2013
 %
 % description:
+% This is the head function for this library. See the README.md file for
+% usage of this method.
 %
 % inputs:
 % - none
@@ -15,7 +17,9 @@ function [] = slotCarTrackLayout ()
 % - addTurnPiece by JWA
 % - getLeftRightLaneDistances by JWA
 % - insertHere by JWA
+% - pdist2 by Piotr Dollar
 % - plotArc by JWA
+% - rebuild by JWA
 % - round2 by Robert Bemis
 % - updatePlot by JWA
 %
@@ -35,7 +39,7 @@ function [] = slotCarTrackLayout ()
 % - pieceType
 %
 % Each x/y pair represents the end point (in global coordinates) of that
-% "lane". Heading is the resultant track heading, in radians. To-the-right is 
+% "lane". Heading is the resultant track heading, in radians. East is 
 % heading = 0. It increases CCW. The final variable describes the pieceType as a number:
 %
 % 0 = no piece (used for start)
@@ -53,8 +57,7 @@ function [] = slotCarTrackLayout ()
 % First find the parallel and perpendicular distances when adding a turn,
 % then translate those two distances into global x,y based on prior
 % heading.
-%
-%
+
 clear all
 close all
 clc
@@ -98,7 +101,6 @@ track = [0, laneWidth, 0, 0, 0, -laneWidth, 0, 0];
 myFig = figure();
 set(myFig, 'Position', [0,0,700,700])
 axis off 
-
 
 while 1~=0
     %% get info on the current end of the track
@@ -204,5 +206,4 @@ while 1~=0
     % update plot
     updatePlot(track)
     axis off % i have to do this ever time
-    
 end
