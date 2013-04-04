@@ -47,6 +47,8 @@ Currently I have this setup for my Riggen brand track. If you want to change thi
     wideSegments    = 12; % number of segments that create 360 degree turn
 
     scaleFactor     = 32; % scale factor for the model cars and track (1:32)
+
+As a side note, the Riggen track doesn't fit together as described in their instructions. If you look at the *riggen example.png* in the *examples* folder, you will see an example configuration which Riggen says is possible with their track. However the current location is not (0,0) meaning the start/end pieces don't line up perfectly. It should not be a problem when actually constructing track because it's somewhat flexible. So, as you are using this tool, don't be discouraged if you can't get the start and finish to line up perfectly.
     
 Updates:
 =
