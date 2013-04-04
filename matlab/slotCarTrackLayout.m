@@ -149,7 +149,7 @@ while 1~=0
     title(strcat(figureString1, figureString2, figureString3, figureString4, figureString5));
     
     %% DO ACTUAL TASK
-    nextPiece = input('=================\nPlease select an option:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n[6] delete last piece\n[7] insert or delete piece\n[8] save track\n[9] exit\n=================\n');
+    nextPiece = input('=================\nPlease select an option:\nAdd Piece:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n\n\Edit track:\n[6] delete last piece\n[7] insert or delete piece\n[8] rotate entire track\n\n[9] save track\n[10] exit\n=================\n');
     clc
 
     if ~isnumeric(nextPiece) || isempty(nextPiece) % confirm that input is valid
@@ -164,7 +164,22 @@ while 1~=0
         case 7
             track = insertHere(track);
             
-        case 8 % =====================================  save current track
+    
+        case 8  % =====================================  rotate entire track
+            inputString = sprintf('Select new heading (in degrees). Current heading is %.2f degrees\n', track(1,7));
+            rotateTrackBy = input(inputString)
+            rotateTrackBy = rotateTrackBy*pi/180 % convert from degrees to rads
+            
+            % update left and right lane start points
+            track(1,1) = -laneWidth * sin(rotateTrackBy); % left x
+            track(1,2) =  laneWidth * cos(rotateTrackBy); % left y
+            track(1,5) =  laneWidth * sin(rotateTrackBy); % right x
+            track(1,6) = -laneWidth * cos(rotateTrackBy); % right y
+            track(1,7) = rotateTrackBy;                   % heading
+            
+            track = rebuild(track);
+            
+        case 9 % =====================================  save current track
             [fileName, pathName] = uiputfile('*.png','Save Track As...');
             
             if ~ischar(fileName) || isempty(fileName) % confirm that filename is valid
@@ -174,10 +189,10 @@ while 1~=0
                 fprintf('Save complete.\n')
             end
             
-        case 9 % =====================================  exit program
+        case 10 % =====================================  exit program
             fprintf('Thanks for using.....goodbye.\n')
             break
-            
+    
         otherwise
             fprintf('Not a valid entry.\n')
             
