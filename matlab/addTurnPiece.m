@@ -16,7 +16,7 @@ function [track] = addTurnPiece(track, diameter, theta, lastPiece, leftOrRight)
 %                   turn will go. relative to prior piece
 %
 % outputs:
-% track   : [n+1 x 8] matrix contains prior track pieces plus one new one
+% - track   : [n+1 x 8] matrix contains prior track pieces plus one new one
 %
 % subfuctions:
 % - none

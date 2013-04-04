@@ -1,5 +1,22 @@
-function [track] = addOrDeletePiece(nextPiece, track) %, lastPiece, tightTheta, wideTheta)
-%% setup
+function [track] = addOrDeletePiece(nextPiece, track) 
+% Jason Atwood
+% 03/29/2013
+%
+% description:
+%  Adds a single piece to the track or deletes the last piece. Can add
+%  straights or turns.
+%
+% inputs:
+% - track       : [n x 8] matrix contains prior track pieces
+% - nextPiece   : int, describing which action to take (1-6)
+%
+% outputs:
+% track         : [n+1 x 8] matrix contains prior track pieces plus one new one
+%
+% subfuctions:
+% - addTurnPiece by JWA
+
+% load global variables
 global laneWidth
 global tightDiameter
 global tightSegments
@@ -13,7 +30,6 @@ global wideTheta
 [numberOfPieces, ~] = size(track);
 lastPiece = track(numberOfPieces, :);
     
-
 switch nextPiece
     case 1 % ===================================== straight piece
         track = [track;...
@@ -73,4 +89,5 @@ switch nextPiece
         end
 
     otherwise
+        % do nothing
 end

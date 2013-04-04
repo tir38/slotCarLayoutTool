@@ -16,11 +16,10 @@ function [rebuiltTrack] = rebuild(track)
 %
 % outputs:
 % - rebuiltTrack : [n x 8] matrix contains rebuilt track pieces
-%
 
 [numberOfPieces, ~] = size(track);
-rebuiltTrack = track(1,:) % add starting conditions
-pieceTypes   = track(:,8)
+rebuiltTrack = track(1,:); % add starting conditions
+pieceTypes   = track(:,8);
 
 % put the end segment back on the end
 for i = 1:numberOfPieces-1

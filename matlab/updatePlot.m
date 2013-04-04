@@ -6,7 +6,7 @@ function [] = updatePlot(track)
 %  does all plotting of the track
 %
 % inputs:
-% - track       : [n x 8] matrix contains all track pieces
+% - track : [n x 8] matrix contains all track pieces
 %
 % outputs:
 % none
@@ -17,7 +17,7 @@ function [] = updatePlot(track)
 % notes:
 % this method assumes that a figure is already open and selected
 
-
+% load global variables
 global tightDiameter
 global wideDiameter
 global laneWidth
@@ -83,10 +83,8 @@ for i = 1:numberOfPieces
     plot(track(i,3), track(i,4), 'ko') % plot center track
     hold on
     plot(track(i,5), track(i,6), 'ro') % plot right track
-
-    
     axis equal
 end
     
 hold off
-commandwindow
+commandwindow % return attention to the command window

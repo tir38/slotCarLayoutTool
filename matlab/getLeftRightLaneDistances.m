@@ -1,5 +1,19 @@
 function [leftDistance, rightDistance] = getLeftRightLaneDistances(pieceList)
+% Jason Atwood
+% 03/29/2013
+%
+% description:
+%  computes the total distance of each lane, in inches
+%
+% inputs:
+% - pieceList : [n x 1] matrix containing the description of each
+%                   piece of the track (1-5)
+%
+% outputs:
+% - leftDistance  : double, distance of left lane, in inches
+% - rightDistance : double, distance of right lane, in inches
 
+% load global variables
 global laneWidth
 global tightDiameter
 global tightSegments
@@ -21,7 +35,6 @@ outsideWideTurnDistance = 2*pi*(wideDiameter/2 + laneWidth/2) * (1/wideSegments)
 [numberOfRightTightTurns, ~]    = size(find(pieceList == 3));
 [numberOfLeftWideTurns, ~]      = size(find(pieceList == 4));
 [numberOfRightWideTurns, ~]     = size(find(pieceList == 5));
-
 
 % compute distances
 leftDistance =  numberOfStraights* straightLength...
