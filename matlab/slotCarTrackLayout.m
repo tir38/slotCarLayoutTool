@@ -166,7 +166,7 @@ while 1~=0
             
     
         case 8  % =====================================  rotate entire track
-            inputString = sprintf('Select new heading (in degrees). Current heading is %.2f degrees\n', track(1,7));
+            inputString = sprintf('Select new heading (in degrees). Current heading is %.2f degrees\n', track(1,7)*180/pi);
             rotateTrackBy = input(inputString)
             rotateTrackBy = rotateTrackBy*pi/180 % convert from degrees to rads
             
