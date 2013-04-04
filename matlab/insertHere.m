@@ -47,7 +47,7 @@ startSegment = track(1:nearestPiece, :); % start Segment
 endSegment = track(nearestPiece+1:end, 8); % I only care about the piece type. I am going to recompute the point locations later.
 
 % insert the piece I want]
-insertPiece = input('=================\nSelect piece to insert:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n\nOr:\n[6] delete this piece\n[7] cancel\n=================\n');
+insertPiece = input('========================\n--- INSERT/DELET MENU ---\n========================\nSelect piece to insert:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n\nOr:\n[6] delete this piece\n[7] cancel\n========================\n');
 
 if ~isnumeric(insertPiece) || isempty(insertPiece) % confirm that input is valid
     return;

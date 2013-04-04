@@ -149,7 +149,7 @@ while 1~=0
     title(strcat(figureString1, figureString2, figureString3, figureString4, figureString5));
     
     %% DO ACTUAL TASK
-    nextPiece = input('=================\nPlease select an option:\nAdd Piece:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n\n\Edit track:\n[6] delete last piece\n[7] insert or delete piece\n[8] rotate entire track\n\n[9] save track\n[10] exit\n=================\n');
+    nextPiece = input('========================\n----- MAIN MENU -----\n========================\nPlease select an option:\nAdd Piece:\n[1] straight\n[2] left turn, small radius\n[3] right turn, small radius\n[4] left turn, large radius\n[5] right turn, large radius\n\n\Edit track:\n[6] delete last piece\n[7] insert or delete piece\n[8] rotate entire track\n\n[9] save track\n[10] exit\n========================\n');
     clc
 
     if ~isnumeric(nextPiece) || isempty(nextPiece) % confirm that input is valid
