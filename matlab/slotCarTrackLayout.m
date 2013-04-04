@@ -200,9 +200,6 @@ while 1~=0
             
     end
     
-    % attempt to reduce error propogation
-    track(end:7) = round2(track(end:7), 1/(2*pi)); % round to nearest whole degree
- 
     % update plot
     updatePlot(track)
     axis off % i have to do this ever time
